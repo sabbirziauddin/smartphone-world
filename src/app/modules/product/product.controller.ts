@@ -240,16 +240,16 @@ const getProductOrderByEmail = async (req: Request, res: Response) => {
 //gett all product or search orders
 
 const getAllOrSearchOrders = async (req: Request, res: Response) => {
-  const email = req.query.email as string | undefined;
-  console.log( "form :",email);
+  const emailSearch = req.query.email as string | undefined;
+  console.log("form :", emailSearch);
 
   try {
     let result;
-    if (email) {
-      result = await ProductService.getProductOrderByEmailFromDB(email);
+    if (emailSearch) {
+      result = await ProductService.getProductOrderByEmailFromDB(emailSearch);
       res.status(200).json({
         success: true,
-        message: `Order fetched successfully for  '${email}' !`,
+        message: `Order fetched successfully for  '${emailSearch}' !`,
         data: result,
       });
     } else {
