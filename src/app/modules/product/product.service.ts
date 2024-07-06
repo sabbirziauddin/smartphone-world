@@ -176,6 +176,7 @@ const createProductOrderIntoDB = async (
 const getAllProductOrdersFromDB = async () => {
   try {
     const result = await ProductOrderModel.find().select("-_id -__v");
+    console.log(result);
     return result;
   } catch (error) {
     throw error;

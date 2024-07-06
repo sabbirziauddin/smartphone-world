@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 import { ProductOrderSchema, ProductSchema } from "./product.zod.validation";
 
+//create product into DB
 const createProduct = async (req: Request, res: Response) => {
     try {
         const productData = req.body;
@@ -25,7 +26,7 @@ const createProduct = async (req: Request, res: Response) => {
     }
 
 }
-
+//get single product from DB
 const getSingleProduct = async (req: Request, res: Response) => {
     const productId = req.params.productId;
     try {
@@ -65,6 +66,8 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 
 } */
+//get all products or search products
+
 export const getAllOrSearchProducts = async (req: Request, res: Response) => {
   const searchTerm = req.query.searchTerm as string | undefined;
 
@@ -94,6 +97,7 @@ export const getAllOrSearchProducts = async (req: Request, res: Response) => {
   }
 };
 
+ //update product in DB
 
 const updateProduct = async (req: Request, res: Response) => {
     const productId = req.params.productId;
@@ -119,7 +123,7 @@ const updateProduct = async (req: Request, res: Response) => {
   
     }
 }
-
+//delete product from DB
 const deleteProduct = async (req: Request, res: Response) => {
     const productId = req.params.productId;
     try {
@@ -192,7 +196,7 @@ const createProductOrder = async (req: Request, res: Response) => {
 
 }
 
-//get all product orders from DB
+/* //get all product orders from DB
 const getAllProductOrders = async (req: Request, res: Response) => {
     try {
         const result = await ProductService.getAllProductOrdersFromDB();
@@ -210,9 +214,9 @@ const getAllProductOrders = async (req: Request, res: Response) => {
   
     }
 
-}
+} */
 
-// find product order by email
+/* // find product order by email
 const getProductOrderByEmail = async (req: Request, res: Response) => {
     const email = req.query.email as string;
     try {
@@ -231,7 +235,41 @@ const getProductOrderByEmail = async (req: Request, res: Response) => {
   
     }
 
+} */
+
+//gett all product or search orders
+
+const getAllOrSearchOrders = async (req: Request, res: Response) => {
+  const email = req.query.email as string | undefined;
+  console.log( "form :",email);
+
+  try {
+    let result;
+    if (email) {
+      result = await ProductService.getProductOrderByEmailFromDB(email);
+      res.status(200).json({
+        success: true,
+        message: `Order fetched successfully for  '${email}' !`,
+        data: result,
+      });
+    } else {
+      result = await ProductService.getAllProductOrdersFromDB();
+      res.status(200).json({
+        success: true,
+        message: "Order fetched successfully",
+        data: result,
+      });
+    }
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || "Something went wrong",
+      error: err,
+    });
+  }
 }
+
+
 
 export const ProductController = {
   createProduct,
@@ -239,10 +277,11 @@ export const ProductController = {
   getSingleProduct,
   /* getAllProducts,
  searchProduct, */
-  deleteProduct, 
+  deleteProduct,
   createProductOrder,
-  getAllProductOrders,
-  getProductOrderByEmail,
-  getAllOrSearchProducts
+  /*  getAllProductOrders,
+  getProductOrderByEmail, */
+  getAllOrSearchProducts,
+  getAllOrSearchOrders,
 };
 

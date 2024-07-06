@@ -9,8 +9,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+
 // application routes
 app.use("/api", productRouter);
+
+app.use("/", (req: Request, res: Response) => {
+  res.json({
+    message: "Welcome to Smartphones World!!",
+  });
+});
 
 
 // Custom 404 Error Handling Middleware

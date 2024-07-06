@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/products", ProductController.getAllOrSearchProducts);  
 
 //getProductOrderByEmail
-router.get("/orders", ProductController.getProductOrderByEmail);
+router.get("/orders", ProductController.getAllOrSearchOrders);
 //searchProduct
 /* router.get("/products", ProductController.searchProduct); */
 
@@ -21,8 +21,8 @@ router.put("/products/:productId", ProductController.updateProduct);
 router.delete("/products/:productId", ProductController.deleteProduct);
 //orderProduct
 router.post("/orders", ProductController.createProductOrder);
-//getAllProductOrders 
-router.get("/orders", ProductController.getAllProductOrders);
+//getAllProductOrders
+router.get("/orders", ProductController.getAllOrSearchOrders);
 
 
 export const productRouter = router;
